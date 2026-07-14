@@ -1,14 +1,21 @@
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar } from '@ionic/react';
+import { IonButton, IonButtons, IonContent, IonHeader, IonPage, IonTitle, IonToolbar } from '@ionic/react';
 import ExploreContainer from '../components/ExploreContainer';
 import './Home.css';
-import { ClientService } from '../services/ClientService';
+
+
+
 
 const Home: React.FC = () => {
   return (
-    <IonPage>
-      <IonHeader>
+    <IonPage>      
+      <IonHeader>        
         <IonToolbar>
-          <IonTitle>Blank</IonTitle>
+          <IonTitle>Mi empresa</IonTitle>
+            <IonButtons>
+              <IonButton routerLink="/clients">Clientes</IonButton>
+              <IonButton routerLink="/add">Añadir Clientes</IonButton>
+              <IonButton routerLink="/edit">Editar Clientes</IonButton>
+            </IonButtons>
         </IonToolbar>
       </IonHeader>
       <IonContent fullscreen>
