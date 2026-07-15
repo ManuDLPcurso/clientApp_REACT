@@ -7,7 +7,10 @@ export class ClientService {
     static async getClients(){
         const {data, error} = await supabase
         .from("clients")
-        .select("*");
+        .select("*")
+        .order("id",{
+        ascending:true
+        })
 
         if(error) {
             throw error;
@@ -45,8 +48,8 @@ export class ClientService {
         if (error){
             throw error
         }
-
      }
+
     static async deleteClient (id:Number){
         const {error} = await supabase
         .from ("clients")
