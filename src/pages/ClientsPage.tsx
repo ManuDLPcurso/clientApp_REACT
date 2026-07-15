@@ -77,6 +77,7 @@ export default function ClientsPage() {
                 <th>Nombre</th>
                 <th>Email</th>
                 <th>Phone</th>
+                <th>Facturation</th>
                 <th>Editar</th>
                 <th>Eliminar</th>
               </tr>
@@ -88,6 +89,11 @@ export default function ClientsPage() {
                   <td>{cliente.name}</td>
                   <td>{cliente.email}</td>
                   <td>{cliente.phone}</td>
+                  <td>{Number(cliente.facturation).toLocaleString('es-ES', {
+                    style: "currency",
+                    currency: "EUR",
+                    maximumFractionDigits: 2
+                  })}</td>
                   <td>
                     <IonButton routerLink={`/edit/${cliente.id}`}>
                       Editar

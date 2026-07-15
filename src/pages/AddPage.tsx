@@ -12,7 +12,7 @@ import {
 } from "@ionic/react";
 
 export default function AddPage() {
-  const [client, setClient] = useState({ name: "", email: "", phone: "" });
+  const [client, setClient] = useState({ name: "", email: "", phone: "", facturation:"" });
 
   const navigate = useHistory();
 
@@ -48,6 +48,10 @@ export default function AddPage() {
           <input
             placeholder="Phone"
             onChange={(e) => setClient({ ...client, phone: e.target.value })}
+          />
+           <input
+            placeholder="Factura"
+            onChange={(e) => setClient({ ...client, facturation: e.target.value })}
           />
           <br />
           <br />

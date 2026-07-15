@@ -16,7 +16,7 @@ import { useHistory, useParams } from "react-router";
 export default function EditClientPage() {
   const navigate = useHistory();
 
-  const [client, setClient] = useState({ name: "", email: "", phone: "" });
+  const [client, setClient] = useState({ name: "", email: "", phone: "", facturation:"" });
 
   const { id } = useParams<{ id: string }>();
 
@@ -56,7 +56,7 @@ export default function EditClientPage() {
             className="form-control mb-3"
             placeholder="Nombre"
             value={client.name}
-            onIonChange={(e) =>
+            onIonInput={(e) =>
               setClient({ ...client, name: e.detail.value ?? "" })
             }
           ></IonInput>
@@ -64,7 +64,7 @@ export default function EditClientPage() {
             className="form-control mb-3"
             placeholder="Email"
             value={client.email}
-            onIonChange={(e) =>
+            onIonInput={(e) =>
               setClient({ ...client, email: e.detail.value ?? "" })
             }
           ></IonInput>
@@ -72,8 +72,16 @@ export default function EditClientPage() {
             className="form-control mb-3"
             placeholder="Phone"
             value={client.phone}
-            onIonChange={(e) =>
+            onIonInput={(e) =>
               setClient({ ...client, phone: e.detail.value ?? "" })
+            }
+          ></IonInput>
+          <IonInput
+            className="form-control mb-3"
+            placeholder="Factura"
+            value={client.facturation}
+            onIonInput={(e) =>
+              setClient({ ...client, facturation: e.detail.value ?? "" })
             }
           ></IonInput>
           <IonButton d-grid onClick={editClient}>Actualizar</IonButton>
