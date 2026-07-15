@@ -16,7 +16,7 @@ export default function ClientsPage() {
 
   const [client, setClient] = useState<any[]>([]);
   
-  //----------------PAGINACION-----------------------
+//----------------PAGINACION-----------------------
 
   const [currentPage, Setpage] = useState(1);
 
@@ -32,8 +32,8 @@ export default function ClientsPage() {
     for (let i = 1; i <= totalPage; i++) {
       pageNumber.push(i);
     }
+//----------------FIN PAGINACION-----------------------
 
-  //----------------PAGINACION-----------------------
   const loadClients = async () => {
     const datos = await ClientService.getClients();
     setClient(datos);

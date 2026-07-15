@@ -38,6 +38,8 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import ClientsPage from "./pages/ClientsPage";
 import AddPage from "./pages/AddPage";
 import EditClientPage from "./pages/EditClientPage";
+import LoginPage from "./pages/LoginPage";
+import ProtectedRoute from "./ProtectedRoute";
 
 setupIonicReact();
 
@@ -54,8 +56,11 @@ const App: React.FC = () => (
         <Route exact path="/add">
           <AddPage />
         </Route>
-        <Route exact path="/edit/:id">
+        <ProtectedRoute exact path="/edit/:id">
           <EditClientPage />
+        </ProtectedRoute>
+        <Route exact path="/login" component={LoginPage}>
+          <LoginPage />
         </Route>
         <Route exact path="/">
           <Redirect to="/home" />
