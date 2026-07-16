@@ -1,0 +1,17 @@
+.action-column{
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.clients-table {
+font-size: 1rem;
+
+}
+
+@media (max-width: 768px) {
+.clients-table {
+font-size: 0.8rem;
+background-color: blue;
+}
+}

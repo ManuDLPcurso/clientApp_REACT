@@ -1,0 +1,30 @@
+
+
+.edit-form {
+font-size: 0.10rem;
+background-color:darkmagenta;
+font-weight:bold;
+color:rgb(208, 255, 0);
+
+text-align: center;
+
+}
+@media (max-width: 768px) {
+.edit-form {
+font-size: 0.8rem;
+background-color: rgb(208, 255, 0);
+font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+color: darkmagenta;
+}
+}
+
+.edit-button{
+    color: darkmagenta;
+    --background: rgb(208, 255, 0);
+}
+
+@media (max-width: 768px) {
+    .edit-button{
+    color: rgb(208, 255, 0);
+    --background: darkmagenta;}
+}

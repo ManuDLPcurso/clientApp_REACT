@@ -39,7 +39,7 @@ import ClientsPage from "./pages/ClientsPage";
 import AddPage from "./pages/AddPage";
 import EditClientPage from "./pages/EditClientPage";
 import LoginPage from "./pages/LoginPage";
-import ProtectedRoute from "./ProtectedRoute";
+import ProtectedRoute2 from "./components/ProtectedRoute2";
 
 setupIonicReact();
 
@@ -47,24 +47,29 @@ const App: React.FC = () => (
   <IonApp>
     <IonReactRouter>
       <IonRouterOutlet>
-        <Route exact path="/home">
-          <Home />
-        </Route>
+
         <Route exact path="/clients">
           <ClientsPage />
         </Route>
+
         <Route exact path="/add">
           <AddPage />
-        </Route>
-        <ProtectedRoute exact path="/edit/:id">
-          <EditClientPage />
-        </ProtectedRoute>
-        <Route exact path="/login" component={LoginPage}>
+        </Route> 
+
+        <Route exact path="/login" component={LoginPage}/>
           <LoginPage />
+
+        <ProtectedRoute2 exact path="/edit/:id" component={EditClientPage}/>
+          <EditClientPage />
+
+        <Route exact path="/home">
+          <Home />
         </Route>
+
         <Route exact path="/">
           <Redirect to="/home" />
         </Route>
+
       </IonRouterOutlet>
     </IonReactRouter>
   </IonApp>

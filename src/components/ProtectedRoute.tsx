@@ -1,6 +1,4 @@
-import React from "react";
-import { Redirect, Route } from "react-router-dom";
-import { AuthService } from "./services/AuthService";
+/* import { Redirect, Route } from "react-router-dom";
 export default function ProtectedRoute({ component: Component, ...rest }: any) {
   
   
@@ -14,3 +12,4 @@ export default function ProtectedRoute({ component: Component, ...rest }: any) {
     />
   );
 }
+ */

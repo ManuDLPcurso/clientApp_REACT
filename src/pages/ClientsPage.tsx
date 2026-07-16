@@ -1,6 +1,9 @@
 import { useHistory, useParams } from "react-router";
 import { ClientService } from "../services/ClientService";
 import { useState, useEffect } from "react";
+import { Geolocation } from "@capacitor/geolocation";
+import { AuthService } from "../services/AuthService";
+import './Clientes.css';
 import {
   IonButton,
   IonHeader,
@@ -10,11 +13,17 @@ import {
   IonButtons,
   IonContent,
   useIonViewWillEnter,
+  IonToast,
 } from "@ionic/react";
+
 
 export default function ClientsPage() {
 
   const [client, setClient] = useState<any[]>([]);
+  const [isLogged,setIsLogged] = useState(false);
+  const [showToast, setShowToast] = useState(false);
+
+  const navigate = useHistory();
   
 //----------------PAGINACION-----------------------
 
@@ -32,7 +41,40 @@ export default function ClientsPage() {
     for (let i = 1; i <= totalPage; i++) {
       pageNumber.push(i);
     }
-//----------------FIN PAGINACION-----------------------
+
+//----------------FIN PAGINACION---------------------
+//*************************************************** 
+//----------------LOGIN/LOGOUT-----------------------
+
+const logout = async () => {
+  try {
+    await AuthService.logout();
+    setIsLogged(false);
+    navigate.push("/login");
+  } catch (error) {
+    console.error(error);
+    alert("Error cerrando sesión");
+  }
+};
+
+const checkAuth = async()=>{
+  const logged = await AuthService.isAuthenticated();
+  setIsLogged(logged);
+}
+
+//----------------FIN LOGIN/LOGOUT-------------------
+//*************************************************** 
+//----------------CAPACITOR-------------------
+
+const getLocation = async () => {
+  const position = await Geolocation.getCurrentPosition();
+  console.log(position.coords.latitude);
+  console.log(position.coords.longitude);
+};
+
+//----------------FIN CAPACITOR-------------------
+//*************************************************** 
+//----------------FUNCIONES-------------------
 
   const loadClients = async () => {
     const datos = await ClientService.getClients();
@@ -47,12 +89,14 @@ export default function ClientsPage() {
     }
   };
 
-  /*   useEffect(() => {
-    loadClients();
-  }, []); */
+//---------------CICLO DE VIDA--------------------
+ 
   useIonViewWillEnter(() => {
     loadClients();
+    checkAuth();
   }, []);
+
+//------------------------------------------------
 
   return (
     <IonPage>
@@ -63,14 +107,38 @@ export default function ClientsPage() {
             <IonButton routerLink="/home">Home</IonButton>
             <IonButton routerLink="/clients">Clientes</IonButton>
             <IonButton routerLink="/add">Añadir Clientes</IonButton>
+
+            {!isLogged && (
+              <IonButton className="btn btn-success" routerLink="/login">
+                Login
+              </IonButton>
+            )}
+            {isLogged && (
+              <IonButton className="btn btn-danger" onClick={logout}>
+                Logout
+              </IonButton>
+            )}
           </IonButtons>
         </IonToolbar>
       </IonHeader>
       <IonContent fullscreen>
-        <div className="container mt-4">
+        <div className="container mt-4 table-responsive action-column">
           <h2>Tabla de clientes</h2>
+
+          <IonButton onClick={() => setShowToast(true)}>Toast</IonButton>
+
+          <IonToast
+            isOpen={showToast}
+            onDidDismiss={() => setShowToast(false)}
+            message="Manolito eres un fiera"
+            duration={2000}
+          />
+
+          <IonButton onClick={getLocation}>GPS</IonButton>
+
           <br />
-          <table className="table table-sm table-dark table-bordered">
+
+          <table className="table table-bordered clients-table">
             <thead>
               <tr>
                 <th>ID</th>
@@ -79,7 +147,7 @@ export default function ClientsPage() {
                 <th>Phone</th>
                 <th>Facturation</th>
                 <th>Editar</th>
-                <th>Eliminar</th>
+                {isLogged && <th>Eliminar</th>}
               </tr>
             </thead>
             <tbody>
@@ -89,22 +157,27 @@ export default function ClientsPage() {
                   <td>{cliente.name}</td>
                   <td>{cliente.email}</td>
                   <td>{cliente.phone}</td>
-                  <td>{Number(cliente.facturation).toLocaleString('es-ES', {
-                    style: "currency",
-                    currency: "EUR",
-                    maximumFractionDigits: 2
-                  })}</td>
+                  <td>
+                    {Number(cliente.facturation).toLocaleString("es-ES", {
+                      style: "currency",
+                      currency: "EUR",
+                      maximumFractionDigits: 2,
+                    })}
+                  </td>
                   <td>
                     <IonButton routerLink={`/edit/${cliente.id}`}>
                       Editar
                     </IonButton>
                   </td>
                   <td>
-                    <button
-                      className="btn btn-danger"
-                      onClick={() => eliminar(cliente.id)}>
-                      Eliminar
-                    </button>
+                    {isLogged && (
+                      <button
+                        className="btn btn-danger"
+                        onClick={() => eliminar(cliente.id)}
+                      >
+                        Eliminar
+                      </button>
+                    )}
                   </td>
                 </tr>
               ))}

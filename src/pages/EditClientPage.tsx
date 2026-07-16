@@ -12,6 +12,7 @@ import {
 import { useEffect, useState } from "react";
 import { ClientService } from "../services/ClientService";
 import { useHistory, useParams } from "react-router";
+import './EditClients.css'
 
 export default function EditClientPage() {
   const navigate = useHistory();
@@ -50,7 +51,7 @@ export default function EditClientPage() {
         </IonToolbar>
       </IonHeader>
       <IonContent fullscreen>
-        <div className="container mt-4 form-control" style={{ maxWidth: '500px' }}>
+        <div className="container mt-4 form-control edit-form" style={{ maxWidth: '500px' }}>
           <h2>Editar cliente</h2>  
           <IonInput
             className="form-control mb-3"
@@ -84,7 +85,7 @@ export default function EditClientPage() {
               setClient({ ...client, facturation: e.detail.value ?? "" })
             }
           ></IonInput>
-          <IonButton d-grid onClick={editClient}>Actualizar</IonButton>
+          <IonButton className="edit-button" d-grid onClick={editClient}>Actualizar</IonButton>
         </div>
 
         <IonHeader collapse="condense">
