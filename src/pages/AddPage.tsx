@@ -60,7 +60,7 @@ export default function AddPage() {
             onChange={(e) => setClient({ ...client, facturation: e.target.value })}
           />
           
-          <button className="btn btn-success" onClick={save}>
+          <button className="btn btn-primary" onClick={save}>
             Guardar
           </button>
           <br />

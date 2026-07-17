@@ -6,11 +6,14 @@
 --danger:
 #ef4444;
 --background:
-#f8fafc;
+#136fcc;
 }
 
 .container{
     max-width: max-content;
+    background:var(--background);
+    margin-top: 60px !important;
+    font-family: "Metal Mania", system-ui;
 }
 
 .action-column{
@@ -20,7 +23,7 @@
 }
 
 .clients-table {
-    font-size: 1.5rem;
+    font-size: 1rem;
     font-family: "Metal Mania", system-ui;
 }
 
@@ -39,4 +42,11 @@
 #count-clients{
     text-align: center;
     background-color: #bbb6b6;
+}
+
+h2{
+    text-align: center;
+    color:#2d63eb;
+    font-size: xx-large; 
+    font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif; 
 }

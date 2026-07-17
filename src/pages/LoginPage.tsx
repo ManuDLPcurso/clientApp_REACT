@@ -2,6 +2,7 @@ import { IonPage, IonHeader, IonToolbar, IonTitle, IonButtons, IonButton, IonCon
 import { useState } from "react";
 import { useHistory } from "react-router";
 import { AuthService } from "../services/AuthService";
+import './Clientes.css'
 
 export default function LoginPage() {
   const history = useHistory();
@@ -28,23 +29,26 @@ export default function LoginPage() {
               </IonButtons>
             </IonToolbar>
           </IonHeader>
-          <IonContent fullscreen>
-            <div className="container mt-4">
-              <h2>Nuevo cliente</h2>
-    
+          <IonContent>
+            <div className="container mt-4 card">
+              <br />
+              <h2>Login</h2>
+              <br />
               <input
+                className="form-control mb-3"
                 placeholder="Email"
                 onChange={(e) => setEmail(e.target.value)}
               />
               <input
+                className="form-control mb-3"
                 placeholder="Password"
                 onChange={(e) => setPassword(e.target.value)}
               />
               <br />
-              <br />
-              <button className="btn btn-success" onClick={login}>
-                Guardar
+              <button className="btn btn-primary" onClick={login}>
+                Login
               </button>
+              <br />
             </div>
             <IonHeader collapse="condense">
               <IonToolbar>
