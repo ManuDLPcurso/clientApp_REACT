@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { ClientService } from "../services/ClientService";
 import { useHistory } from "react-router-dom";
+import './Add.css'
 import {
   IonButton,
   IonButtons,
@@ -34,30 +35,35 @@ export default function AddPage() {
         </IonToolbar>
       </IonHeader>
       <IonContent fullscreen>
-        <div className="container mt-4">
+        <div className="container mt-4 card shadow">
+          <br />
           <h2>Nuevo cliente</h2>
 
           <input
+            className="form-control mb-3"
             placeholder="Nombre"
             onChange={(e) => setClient({ ...client, name: e.target.value })}
           />
           <input
+            className="form-control mb-3"
             placeholder="Email"
             onChange={(e) => setClient({ ...client, email: e.target.value })}
           />
           <input
+            className="form-control mb-3"
             placeholder="Phone"
             onChange={(e) => setClient({ ...client, phone: e.target.value })}
           />
            <input
+            className="form-control mb-3"
             placeholder="Factura"
             onChange={(e) => setClient({ ...client, facturation: e.target.value })}
           />
-          <br />
-          <br />
+          
           <button className="btn btn-success" onClick={save}>
             Guardar
           </button>
+          <br />
         </div>
         <IonHeader collapse="condense">
           <IonToolbar>

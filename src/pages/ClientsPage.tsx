@@ -68,6 +68,7 @@ const checkAuth = async()=>{
 
 const getLocation = async () => {
   const position = await Geolocation.getCurrentPosition();
+  const lat =position.coords.latitude
   console.log(position.coords.latitude);
   console.log(position.coords.longitude);
 };
@@ -121,11 +122,13 @@ const getLocation = async () => {
           </IonButtons>
         </IonToolbar>
       </IonHeader>
-      <IonContent fullscreen>
+      <IonContent id="container" fullscreen>
         <div className="container mt-4 table-responsive action-column">
           <h2>Tabla de clientes</h2>
 
           <IonButton onClick={() => setShowToast(true)}>Toast</IonButton>
+
+          <div id="count-clients" className="alert alert-primary">Total clientes: {client.length}</div>
 
           <IonToast
             isOpen={showToast}
@@ -135,6 +138,8 @@ const getLocation = async () => {
           />
 
           <IonButton onClick={getLocation}>GPS</IonButton>
+            
+          <div id="count-clients" className="alert alert-primary">Latitud:{} <br /> Longitud:{}</div>
 
           <br />
 
@@ -165,7 +170,7 @@ const getLocation = async () => {
                     })}
                   </td>
                   <td>
-                    <IonButton routerLink={`/edit/${cliente.id}`}>
+                    <IonButton className="buttonprueba" routerLink={`/edit/${cliente.id}`}>
                       Editar
                     </IonButton>
                   </td>

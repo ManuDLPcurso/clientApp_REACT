@@ -1,3 +1,18 @@
+:root {
+--primary:
+#2563eb;
+--success:
+#22c55e;
+--danger:
+#ef4444;
+--background:
+#f8fafc;
+}
+
+.container{
+    max-width: max-content;
+}
+
 .action-column{
     display: flex;
     flex-direction: column;
@@ -5,13 +20,23 @@
 }
 
 .clients-table {
-font-size: 1rem;
-
+    font-size: 1.5rem;
+    font-family: "Metal Mania", system-ui;
 }
+
+.clients-table .buttonprueba{
+    font-family: "Metal Mania", system-ui;
+}
+
 
 @media (max-width: 768px) {
-.clients-table {
-font-size: 0.8rem;
-background-color: blue;
+    .clients-table {
+    font-size: 0.8rem;
+    background-color: blue;
 }
+}
+
+#count-clients{
+    text-align: center;
+    background-color: #bbb6b6;
 }
