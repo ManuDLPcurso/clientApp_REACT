@@ -1,15 +1,44 @@
-/* import { Redirect, Route } from "react-router-dom";
-export default function ProtectedRoute({ component: Component, ...rest }: any) {
-  
-  
-    return (
+import { useState, useEffect } from "react";
+import { Route, Redirect } from "react-router";
+import { AuthService } from "../services/AuthService";
+import { useIonViewWillEnter } from "@ionic/react";
+
+interface ProtectedRouteProps {
+  component: React.ComponentType<any>;
+  path: string;
+  exact?: boolean;
+}
+export default function ProtectedRoute({
+  component: Component,
+  ...rest
+}: ProtectedRouteProps) {
+
+  const [loading, setLoading] = useState(true);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+  useEffect(() => {
+    const checkAuth = async () => {
+      const logged = await AuthService.isAuthenticated();
+      setIsAuthenticated(logged);
+      setLoading(false);
+    };
+    checkAuth();
+  }, []);
+  return (
+
     <Route
       {...rest}
       render={(props) => {
-        const session = localStorage.getItem("supabase.auth.token");
-        return session ? <Component {...props} /> : <Redirect to="/login" />;
+        if (loading) {
+          return <div>Cargando...</div>;
+        }
+        return isAuthenticated ? (
+          <Component {...props} />
+        ) : (
+          <Redirect to="/login" />
+        );
       }}
     />
+
   );
 }
- */

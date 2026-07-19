@@ -35,11 +35,18 @@ import "./theme/variables.css";
 
 /*Importar Bootstrap*/
 import "bootstrap/dist/css/bootstrap.min.css";
-import ClientsPage from "./pages/ClientsPage";
-import AddPage from "./pages/AddPage";
-import EditClientPage from "./pages/EditClientPage";
-import LoginPage from "./pages/LoginPage";
-import ProtectedRoute2 from "./components/ProtectedRoute2";
+import ClientsPage from "./pages/Clients/ClientsPage";
+import AddPage from "./pages/Clients/AddClientPage";
+import EditClientPage from "./pages/Clients/EditClientPage";
+import LoginPage from "./pages/Login/LoginPage";
+import ProtectedRoute2 from "./components/ProtectedRoute";
+import ProtectedRoute from "./components/ProtectedRoute";
+import WarehousePage from "./pages/Warehouses/WarehousePage";
+import AddWarehousePage from "./pages/Warehouses/AddWarehousePage";
+import EditWarehousePage from "./pages/Warehouses/EditWarehousePage";
+import WarehouseProfilePage from "./pages/Warehouses/WarehouseProfilePage";
+import ClientProfilePage from "./pages/Clients/ClientProfilePage";
+import UpdateWarehousePage from "./pages/Warehouses/EditWarehousePage";
 
 setupIonicReact();
 
@@ -52,14 +59,31 @@ const App: React.FC = () => (
           <ClientsPage />
         </Route>
 
-        <Route exact path="/add">
+        <Route exact path="/warehouse">
+          <WarehousePage />
+        </Route>
+
+        <Route exact path="/add-warehouse">
+          <AddWarehousePage />
+        </Route>
+
+        <Route exact path="/edit-warehouse/:id" component={UpdateWarehousePage}/>
+          <EditWarehousePage />
+
+        <Route exact path="/profile-warehouse/:id" component={WarehouseProfilePage}/>
+          <WarehouseProfilePage />  
+
+        <Route exact path="/profile-client/:id" component={ClientProfilePage}/>
+          <ClientProfilePage />    
+
+        <Route exact path="/add-client">
           <AddPage />
         </Route> 
 
         <Route exact path="/login" component={LoginPage}/>
           <LoginPage />
 
-        <ProtectedRoute2 exact path="/edit/:id" component={EditClientPage}/>
+        <Route exact path="/edit-client/:id" component={EditClientPage}/>
           <EditClientPage />
 
         <Route exact path="/home">

@@ -19,7 +19,9 @@ const Home: React.FC = () => {
           <IonButtons>
             <IonButton routerLink="/home">Home</IonButton>
             <IonButton routerLink="/clients">Clientes</IonButton>
-            <IonButton routerLink="/add">Añadir Clientes</IonButton>
+            <IonButton routerLink="/add">Añadir Cliente</IonButton>
+            <IonButton routerLink="/warehouse">Almacenes</IonButton>
+            <IonButton routerLink="/add-warehouse">Añadir Almacen</IonButton>
           </IonButtons>
         </IonToolbar>
       </IonHeader>

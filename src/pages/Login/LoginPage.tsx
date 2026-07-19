@@ -1,8 +1,8 @@
 import { IonPage, IonHeader, IonToolbar, IonTitle, IonButtons, IonButton, IonContent } from "@ionic/react";
 import { useState } from "react";
 import { useHistory } from "react-router";
-import { AuthService } from "../services/AuthService";
-import './Clientes.css'
+import { AuthService } from "../../services/AuthService";
+
 
 export default function LoginPage() {
   const history = useHistory();
