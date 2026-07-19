@@ -135,7 +135,7 @@ export default function WarehousePage(){
                             delWarehouse(warehouse.id)}}}
                       >
                         <IonIcon
-                          icon={trashOutline}
+                          icon={personOutline}
                           slot="icon-only"/>
                       </IonButton>
                     </td>
