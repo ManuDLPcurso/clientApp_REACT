@@ -1,10 +1,11 @@
-import { supabase } from '../config/supabase';
+import { url } from '../config/supabase';
 import { ClientInterface } from '../interfaces/ClientInterface';
+
 
 
 export class ClientService {
 
-    static async getClients(){
+    /* static async getClients(){
         const {data, error} = await supabase
         .from("clients")
         .select("*")
@@ -59,7 +60,51 @@ export class ClientService {
         if (error){
             throw error
         }
-     }
-  
+     } */
+
+        static async getClients(){
+            const res = await fetch ('http://localhost:3000/clients')
+            return await res.json();
+        }
+
+    
+        static async createClient(client:ClientInterface) {
+        const res =await fetch('http://localhost:3000/clients/add-clients',
+            {
+            method:'POST',
+            headers: {'Content-Type':'application/json'
+            },
+            body:
+            JSON.stringify(client)
+            }
+            );
+            return await res.json();
+            }
+
+        static async updateClient(_id:string,client:ClientInterface) {
+            await fetch(
+            `http://localhost:3000/clients/edit-client/${_id}`,
+            {
+                method:'PUT',
+                headers: {
+                'Content-Type':
+                'application/json'
+                },
+                body:
+                JSON.stringify(client)
+            }
+        );
+        }
+
+        static async deleteClient(
+_id:string
+) {
+await fetch(
+`http://localhost:3000/clients/edit-client/:_id`,
+{
+method:'DELETE'
+}
+);
+}
 
 }

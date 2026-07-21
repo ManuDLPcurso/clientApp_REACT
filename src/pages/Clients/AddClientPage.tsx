@@ -84,7 +84,7 @@ export default function AddPage() {
   );
 } */
 
-  import { IonButton, IonButtons, IonContent, IonHeader, IonPage, IonTitle, IonToolbar } from "@ionic/react";
+import { IonButton, IonButtons, IonContent, IonHeader, IonPage, IonTitle, IonToolbar } from "@ionic/react";
 import { useState } from "react";
 import { useHistory } from "react-router";
 import { ClientService } from "../../services/ClientService";
@@ -93,15 +93,15 @@ export default function ClientsPage() {
 
     const [client, setClient] = useState({ 
       name: "",
-      email: "", 
-      phone: "", 
-      city:"",
+      email: "",
+      phone: 0,
+      city: ""
     });
 
     const navigate = useHistory();
 
     const add = async () => {
-    await ClientService.addClient(client);
+    await ClientService.createClient(client);
     navigate.push("/clients");
     };
 
@@ -137,12 +137,12 @@ export default function ClientsPage() {
             <input
             className="form-control mb-3"
             placeholder="Teléfono"
-            onChange={(e) => setClient({ ...client, phone: e.target.value })}
+            onChange={(e) => setClient({ ...client, phone: Number(e.target.value) })}
             />
             <input
             className="form-control mb-3"
-            placeholder="Ciudad"
-            onChange={(e) => setClient({ ...client, city: (e.target.value) })}
+            placeholder="Teléfono"
+            onChange={(e) => setClient({ ...client, city: e.target.value})}
             />
             
             <button className="btn btn-primary" onClick={add}>

@@ -241,11 +241,11 @@ import SearchBar from "./../../components/SearchBar"
 
 //------Ionic--------------------------------------------------
 import { IonButton, IonButtons, IonContent, IonHeader, IonIcon, IonPage, IonTitle, IonToast, IonToolbar, useIonViewWillEnter } from "@ionic/react";
-import { addCircle, personOutline, trashOutline } from "ionicons/icons";
+import { addCircle, create, personOutline, trashOutline } from "ionicons/icons";
 
 
 export default function ClientsPage(){
-    const [clients, setClients] = useState<ClientInterface[]>([]);
+    const [clients, setClients] = useState<any[]>([]);
     //const [isLogged,setIsLogged] = useState(false);//Permisos Login
     const [search,setSearch] = useState("");//SearchBar
 
@@ -258,13 +258,13 @@ export default function ClientsPage(){
         setClients(datos);
     };//Cargar almacenes 
 
-    const delClient = async (id:Number) => {
+    const delClient = async (id:string) => {
         const ok = confirm("¿Deseas eliminar este cliente?")
         if (ok){
             await ClientService.deleteClient(id);
             await loadClients();
         }
-    };//Eliminar almacen
+    };//Eliminar almacen */
 
 //----------------PAGINACION-------------------
 
@@ -328,10 +328,11 @@ export default function ClientsPage(){
                 <th>ID</th>
                 <th>Nombre</th>
                 <th>Email</th>
-                <th>Teléfono</th>
+                <th>Telefono</th>
                 <th>Ciudad</th>
                 <th>Perfil</th>
                 <th>Eliminar</th>
+
               </tr>
 
             </thead>
@@ -340,32 +341,38 @@ export default function ClientsPage(){
               {currentData.map(
                 (clients) => (
                   <tr key={clients.id}>
-                    <td>{clients.id}</td>
+                    <td>{clients._id}</td>
                     <td>{clients.name}</td>
                     <td>{clients.email}</td>
                     <td>{clients.phone}</td>
                     <td>{clients.city}</td>
                     <td>
-                      <IonButton routerLink={`/profile-client/${clients.id}`}>
+                      <IonButton routerLink={`/profile-client/${clients._id}`}>
                         Perfil
                         <IonIcon
                           icon={personOutline}
                           slot="start"
                           style={{ marginLeft: "0px" }}/>
                       </IonButton>
+                    <td>
+                      <IonButton routerLink={`clients/edit-client/${clients._id}`}>
+                        Editar
+                        <IonIcon
+                          icon={create}
+                          slot="start"
+                          style={{ marginLeft: "0px" }}/>
+                      </IonButton>
+                    </td>  
                     </td>
                     <td>
-                      <IonButton
-                          fill="clear"
-                          color="danger"
-                          
-                          onClick={() => {
-                            if(clients.id){
-                            delClient(clients.id)}}}
-                      >
+                      <IonButton onClick={() => {
+                            if(clients._id){
+                            delClient(clients._id)}}}>
+                        
                         <IonIcon
                           icon={trashOutline}
-                          slot="icon-only"/>
+                          slot="icon-only"
+                          style={{ marginLeft: "0px" }}/>
                       </IonButton>
                     </td>
                   </tr>

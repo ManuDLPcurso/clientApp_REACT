@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useHistory } from "react-router";
 
 //------Components, Services, Hooks--------------------------------------------------
-import { WarehouseService } from "../../Services/WarehouseService";
+import { WarehouseService } from "../../services/WarehouseService";
 import { WarehouseInterface } from "../../interfaces/WarehouseInterface";
 import { usePagination } from "./../../hooks/usePagination"
 import Pagination from "./../../components/Pagination"
@@ -135,7 +135,7 @@ export default function WarehousePage(){
                             delWarehouse(warehouse.id)}}}
                       >
                         <IonIcon
-                          icon={personOutline}
+                          icon={trashOutline}
                           slot="icon-only"/>
                       </IonButton>
                     </td>

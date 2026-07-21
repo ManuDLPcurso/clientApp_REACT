@@ -20,7 +20,7 @@ export default function ClientProfilePage(){
     const { id } = useParams<{ id: string }>();
 
     const loadClient = async () => {
-        const datos = await ClientService.getClient(Number(id));
+        const datos = await ClientService.getClients(Number(id));
         setClient(datos);
     };
 

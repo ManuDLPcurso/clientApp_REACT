@@ -18,27 +18,30 @@ export default function EditClientPage() {
   const navigate = useHistory();
 
   const [client, setClient] = useState({ 
+      _id:"",
       name: "",
       email: "", 
-      phone: "", 
+      phone: 0, 
       city:"" 
   });
 
-  const { id } = useParams<{ id: string }>();
+  const { _id } = useParams<{ _id: string }>() 
 
-  const loadClient = async () => {
-    const dato = await ClientService.getClient(Number(id));
-    setClient(dato);
-  };
+   const loadClient = async () =>{
+          const datos = await ClientService.getClients();
+          setClient(datos);
+          };
 
   const update = async () => {
-    await ClientService.updateClient(Number(id), client);
+    await ClientService.updateClient(_id,client);
     navigate.push("/clients");
   };
 
   useIonViewWillEnter(()=>{
+
     loadClient();
-  },[])
+   
+  },[_id])
 
   return (
     <IonPage>
@@ -58,6 +61,15 @@ export default function EditClientPage() {
         <div>
 
           <h2>Editar cliente</h2>  
+
+            {/* <IonInput
+            className="form-control mb-3"
+            placeholder="Nombre"
+            value={client._id}
+            onIonInput={(e) => setClient({ ...client, _id: e.detail.value ?? "" })
+              
+            }
+           ></IonInput> */}
 
           <IonInput
             className="form-control mb-3"
@@ -79,7 +91,7 @@ export default function EditClientPage() {
             className="form-control mb-3"
             placeholder="Phone"
             value={client.phone}
-            onIonInput={(e) => setClient({ ...client, phone: e.detail.value ?? "" })
+            onIonInput={(e) => setClient({ ...client, phone: Number(e.detail.value ?? "" )})
             }
               
           ></IonInput>
@@ -104,4 +116,6 @@ export default function EditClientPage() {
       </IonContent>
     </IonPage>
   );
+
+
 }
