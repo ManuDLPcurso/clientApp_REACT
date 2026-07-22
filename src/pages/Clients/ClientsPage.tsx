@@ -314,6 +314,7 @@ export default function ClientsPage(){
             >
               Tailwind funciona
             </h1>
+            <p>Listado provisional de clientes admitidos:</p>
 
             <IonButton routerLink="/add-client/">
               Añadir cliente
