@@ -242,6 +242,7 @@ import SearchBar from "./../../components/SearchBar"
 //------Ionic--------------------------------------------------
 import { IonButton, IonButtons, IonContent, IonHeader, IonIcon, IonPage, IonTitle, IonToast, IonToolbar, useIonViewWillEnter } from "@ionic/react";
 import { addCircle, create, personOutline, trashOutline } from "ionicons/icons";
+import { formatCurrency } from "../../utils/formatCurrency";
 
 
 export default function ClientsPage(){
@@ -259,8 +260,8 @@ export default function ClientsPage(){
     };//Cargar almacenes 
 
     const delClient = async (id:string) => {
-        const ok = confirm("¿Deseas eliminar este cliente?")
-        if (ok){
+        const confirmar = confirm("¿Deseas eliminar este cliente?")
+        if (confirmar){
             await ClientService.deleteClient(id);
             await loadClients();
         }
@@ -285,118 +286,124 @@ export default function ClientsPage(){
         loadClients()
     },[]);
 
-    return(
-        <IonPage>
-      <IonHeader>
-        <IonToolbar>
-          <IonTitle>Mi empresa</IonTitle>
-          <IonButtons>
-             <IonButton routerLink="/home">Home</IonButton>
-            <IonButton routerLink="/clients">Clientes</IonButton>
-            <IonButton routerLink="/add-client">Añadir Cliente</IonButton>
-            <IonButton routerLink="/warehouse">Almacenes</IonButton>
-            <IonButton routerLink="/add-warehouse">Añadir Almacen</IonButton>
+    return (
+      <IonPage>
+        <IonHeader>
+          <IonToolbar>
+            <IonTitle>Mi empresa</IonTitle>
+            <IonButtons>
+              <IonButton routerLink="/home">Home</IonButton>
+              <IonButton routerLink="/clients">Clientes</IonButton>
+              <IonButton routerLink="/add-client">Añadir Cliente</IonButton>
+              <IonButton routerLink="/warehouse">Almacenes</IonButton>
+              <IonButton routerLink="/add-warehouse">Añadir Almacen</IonButton>
+            </IonButtons>
+          </IonToolbar>
+        </IonHeader>
+        <IonContent fullscreen>
+          <div>
+            <SearchBar
+              search={search}
+              setSearch={setSearch}
+              placeholder="Buscar cliente"
+            />
 
-          </IonButtons>
-        </IonToolbar>
-      </IonHeader>
-      <IonContent fullscreen>
-        <div className="container mt-4 table-responsive action-column">
+            <h2>Tabla de clientes</h2>
+            <h1
+              className="text-5xl font-bold text-red-200 text-center mt-5"
+            >
+              Tailwind funciona
+            </h1>
 
-          <SearchBar 
-          search = {search}
-          setSearch={setSearch}
-          placeholder="Buscar cliente"
-          />
-          
-          <h2>Tabla de clientes</h2>
+            <IonButton routerLink="/add-client/">
+              Añadir cliente
+              <IonIcon
+                icon={addCircle}
+                slot="start"
+                style={{ marginLeft: "0px" }}
+              />
+            </IonButton>
 
-          <IonButton routerLink= "/add-client/">
-            Añadir cliente 
-            <IonIcon
-              icon={addCircle}
-              slot="start"
-              style={{ marginLeft: "0px" }}/>
-          </IonButton>
+            <br />
+            <br />
 
-          <br /><br />
+            <table>
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Nombre</th>
+                  <th>Email</th>
+                  <th>Telefono</th>
+                  <th>Ciudad</th>
+                  <th>Perfil</th>
+                  <th>Eliminar</th>
+                </tr>
+              </thead>
 
-          <table className="table table-hover align clients-table">
-            <thead>
-
-              <tr>
-                <th>ID</th>
-                <th>Nombre</th>
-                <th>Email</th>
-                <th>Telefono</th>
-                <th>Ciudad</th>
-                <th>Perfil</th>
-                <th>Eliminar</th>
-
-              </tr>
-
-            </thead>
-
-            <tbody>
-              {currentData.map(
-                (clients) => (
-                  <tr key={clients.id}>
-                    <td>{clients._id}</td>
-                    <td>{clients.name}</td>
-                    <td>{clients.email}</td>
-                    <td>{clients.phone}</td>
-                    <td>{clients.city}</td>
+              <tbody>
+                {currentData.map((cliente) => (
+                  <tr key={cliente.id}>
+                    <td>{cliente._id}</td>
+                    <td>{cliente.name}</td>
+                    <td>{cliente.email}</td>
+                    <td>{formatCurrency(cliente.phone)}</td>
+                    <td>{cliente.city}</td>
                     <td>
-                      <IonButton routerLink={`/profile-client/${clients._id}`}>
+                      <IonButton routerLink={`/profile-client/${cliente._id}`}>
                         Perfil
                         <IonIcon
                           icon={personOutline}
                           slot="start"
-                          style={{ marginLeft: "0px" }}/>
+                          style={{ marginLeft: "0px" }}
+                        />
                       </IonButton>
-                    <td>
-                      <IonButton routerLink={`clients/edit-client/${clients._id}`}>
-                        Editar
-                        <IonIcon
-                          icon={create}
-                          slot="start"
-                          style={{ marginLeft: "0px" }}/>
-                      </IonButton>
-                    </td>  
+                      <td>
+                        <IonButton
+                          onClick={() => {
+                            navigate.push("/edit-client", cliente);
+                          }}
+                        >
+                          Editar
+                          <IonIcon
+                            icon={create}
+                            slot="start"
+                            style={{ marginLeft: "0px" }}
+                          />
+                        </IonButton>
+                      </td>
                     </td>
                     <td>
-                      <IonButton onClick={() => {
-                            if(clients._id){
-                            delClient(clients._id)}}}>
-                        
+                      <IonButton
+                        className="btn-danger"
+                        onClick={() => delClient(cliente._id)}
+                      >
                         <IonIcon
                           icon={trashOutline}
                           slot="icon-only"
-                          style={{ marginLeft: "0px" }}/>
+                          style={{ marginLeft: "0px" }}
+                        />
                       </IonButton>
                     </td>
                   </tr>
-                )
-              )}
-            </tbody>
+                ))}
+              </tbody>
+            </table>
+          </div>
 
-          </table>
-        </div>
+          <Pagination
+            pageNumber={pageNumber}
+            currentPage={currentPage}
+            setCurrentPage={setCurrentPage}
+          />
 
-        <Pagination
-          pageNumber={pageNumber}
-          currentPage={currentPage}
-          setCurrentPage={setCurrentPage}
-        />
-
-        <IonHeader collapse="condense">
-          <IonToolbar>
-            <IonTitle size="large">Blank</IonTitle>
-          </IonToolbar>
-        </IonHeader>
-      </IonContent>
-    </IonPage>
-    )
+          <IonHeader collapse="condense">
+            <IonToolbar>
+              <IonTitle size="large">Blank</IonTitle>
+            </IonToolbar>
+          </IonHeader>
+        </IonContent>
+      </IonPage>
+    );
 
 
 

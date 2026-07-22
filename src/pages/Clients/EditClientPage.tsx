@@ -8,15 +8,21 @@ import {
   IonTitle,
   IonContent,
   useIonViewWillEnter,
+  IonToast,
 } from "@ionic/react";
 import { useEffect, useState } from "react";
 import { ClientService } from "./../../services/ClientService"
-import { useHistory, useParams } from "react-router";
+import { useHistory, useLocation, useParams } from "react-router";
+import { ClientInterface } from "../../interfaces/ClientInterface";
 
 
 export default function EditClientPage() {
-  const navigate = useHistory();
 
+  const location = useLocation();
+  const cliente:any =location.state;
+  console.log(cliente)
+
+  const [showToast, setShowToast] = useState(false);
   const [client, setClient] = useState({ 
       _id:"",
       name: "",
@@ -25,7 +31,11 @@ export default function EditClientPage() {
       city:"" 
   });
 
-  const { _id } = useParams<{ _id: string }>() 
+   const navigate = useHistory();
+  
+
+
+  //const { _id } = useParams<{ _id: string }>() 
 
    const loadClient = async () =>{
           const datos = await ClientService.getClients();
@@ -33,15 +43,15 @@ export default function EditClientPage() {
           };
 
   const update = async () => {
-    await ClientService.updateClient(_id,client);
+    await ClientService.updateClient(client);
+    setShowToast (true);
     navigate.push("/clients");
   };
 
   useIonViewWillEnter(()=>{
-
-    loadClient();
-   
-  },[_id])
+    if (cliente){
+    setClient(cliente)}
+   },[])
 
   return (
     <IonPage>
@@ -59,20 +69,21 @@ export default function EditClientPage() {
       </IonHeader>
       <IonContent fullscreen>
         <div>
-
+          
           <h2>Editar cliente</h2>  
 
-            {/* <IonInput
-            className="form-control mb-3"
+          
+
+           <IonInput readonly
             placeholder="Nombre"
             value={client._id}
             onIonInput={(e) => setClient({ ...client, _id: e.detail.value ?? "" })
               
             }
-           ></IonInput> */}
+           ></IonInput> 
 
           <IonInput
-            className="form-control mb-3"
+            
             placeholder="Nombre"
             value={client.name}
             onIonInput={(e) => setClient({ ...client, name: e.detail.value ?? "" })
@@ -80,7 +91,7 @@ export default function EditClientPage() {
             }
           ></IonInput>
           <IonInput
-            className="form-control mb-3"
+            
             placeholder="Email"
             value={client.email}
             onIonInput={(e) => setClient({ ...client, email: e.detail.value ?? "" })
@@ -88,7 +99,7 @@ export default function EditClientPage() {
             }
           ></IonInput>
           <IonInput
-            className="form-control mb-3"
+            
             placeholder="Phone"
             value={client.phone}
             onIonInput={(e) => setClient({ ...client, phone: Number(e.detail.value ?? "" )})
@@ -96,7 +107,7 @@ export default function EditClientPage() {
               
           ></IonInput>
           <IonInput
-            className="form-control mb-3"
+            
             placeholder="Ciudad"
             value={client.city}
             onIonInput={(e) => setClient({ ...client, city: e.detail.value ?? "" })

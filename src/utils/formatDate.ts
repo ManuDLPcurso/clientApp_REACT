@@ -3,6 +3,7 @@ export function formatDate(date?: string) {
 if (!date) return "-";  
 
   return new Date(date).toLocaleString("es-ES", {
+    
     day: "2-digit",
     month: "2-digit",
     year: "numeric",
