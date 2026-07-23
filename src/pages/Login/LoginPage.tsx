@@ -1,7 +1,8 @@
-import { IonPage, IonHeader, IonToolbar, IonTitle, IonButtons, IonButton, IonContent } from "@ionic/react";
+import { IonPage, IonHeader, IonToolbar, IonTitle, IonButtons, IonButton, IonContent, IonInput } from "@ionic/react";
 import { useState } from "react";
 import { useHistory } from "react-router";
-import { AuthService } from "../../services/AuthService";
+import { login } from "../../services/AuthService";
+
 
 
 export default function LoginPage() {
@@ -9,14 +10,25 @@ export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const login = async () => {
+  /* const login = async () => {
     try {
       await AuthService.login(email, password);
       history.push("/clients");
     } catch {
       alert("Credenciales incorrectas");
     }
-  };
+    }; */
+
+    async function loginPage(){
+      const tokenhash = await login(email,password)
+      console.log(tokenhash)
+      localStorage.setItem("id",tokenhash.token);
+    }
+    
+
+
+
+
   return (
     <IonPage>
           <IonHeader>
@@ -34,20 +46,21 @@ export default function LoginPage() {
               <br />
               <h2>Login</h2>
               <br />
-              <input
+              <IonInput
                 className="form-control mb-3"
                 placeholder="Email"
-                onChange={(e) => setEmail(e.target.value)}
+                onIonInput={(e) => setEmail(e.detail.value ?? "")}
               />
-              <input
+              <IonInput
                 className="form-control mb-3"
                 placeholder="Password"
-                onChange={(e) => setPassword(e.target.value)}
+                type="password"
+                onIonInput={(e) => setPassword(e.detail.value ?? "")}
               />
               <br />
-              <button className="btn btn-primary" onClick={login}>
+               <button className="btn btn-primary" onClick={loginPage}>
                 Login
-              </button>
+              </button> 
               <br />
             </div>
             <IonHeader collapse="condense">

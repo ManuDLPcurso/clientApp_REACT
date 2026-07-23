@@ -65,9 +65,12 @@ export class ClientService {
   }
 
   static async createClient(client: ClientInterface) {
+    const token = localStorage.getItem('id')
     const res = await fetch("http://localhost:3000/clients/add-clients", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: { "Content-Type": "application/json",
+                 "Authorization": `Bearer: ${token}`
+       },
       body: JSON.stringify(client),
     });
     return await res.json();

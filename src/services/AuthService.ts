@@ -1,9 +1,7 @@
-import { supabase } from "../config/supabase";
-
-export class AuthService {
+//import { supabase } from "../config/supabase";
 
 
-  static async login(email: string, password: string) {
+  /*   static async login(email: string, password: string) {
     const { data, error } = await supabase.auth.signInWithPassword({email,password,});
     if (error) {
       throw error;
@@ -24,4 +22,21 @@ export class AuthService {
     const session = await this.getSession();
     return !!session;
   }
-}
+*/
+
+  const API_URL = "http://localhost:3000";
+
+  export const login = async (email: string, password: string) => {
+    const response = await fetch(`${API_URL}/auth/login`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        email,
+        password,
+      }),
+    });
+    return response.json();
+  };
+

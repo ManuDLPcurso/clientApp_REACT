@@ -227,7 +227,6 @@ export default function ClientsPage() {
   );
 } */
 
-
 //------Libs--------------------------------------------------
 import { useState } from "react";
 import { useHistory } from "react-router";
@@ -235,177 +234,176 @@ import { useHistory } from "react-router";
 //------Components, Services, Hooks--------------------------------------------------
 import { ClientService } from "../../services/ClientService";
 import { ClientInterface } from "../../interfaces/ClientInterface";
-import { usePagination } from "./../../hooks/usePagination"
-import Pagination from "./../../components/Pagination"
-import SearchBar from "./../../components/SearchBar"
+import { usePagination } from "./../../hooks/usePagination";
+import Pagination from "./../../components/Pagination";
+import SearchBar from "./../../components/SearchBar";
 
 //------Ionic--------------------------------------------------
-import { IonButton, IonButtons, IonContent, IonHeader, IonIcon, IonPage, IonTitle, IonToast, IonToolbar, useIonViewWillEnter } from "@ionic/react";
+import {
+  IonButton,
+  IonButtons,
+  IonContent,
+  IonHeader,
+  IonIcon,
+  IonPage,
+  IonTitle,
+  IonToast,
+  IonToolbar,
+  useIonViewWillEnter,
+} from "@ionic/react";
 import { addCircle, create, personOutline, trashOutline } from "ionicons/icons";
 import { formatCurrency } from "../../utils/formatCurrency";
 
+export default function ClientsPage() {
+  const [clients, setClients] = useState<any[]>([]);
+  //const [isLogged,setIsLogged] = useState(false);//Permisos Login
+  const [search, setSearch] = useState(""); //SearchBar
 
-export default function ClientsPage(){
-    const [clients, setClients] = useState<any[]>([]);
-    //const [isLogged,setIsLogged] = useState(false);//Permisos Login
-    const [search,setSearch] = useState("");//SearchBar
+  const navigate = useHistory();
 
-    const navigate = useHistory();
+  //----------------FUNCIONES-------------------
 
-//----------------FUNCIONES-------------------
+  const loadClients = async () => {
+    const datos = await ClientService.getClients();
+    setClients(datos);
+  }; //Cargar almacenes
 
-    const loadClients = async() =>{
-        const datos = await ClientService.getClients();
-        setClients(datos);
-    };//Cargar almacenes 
+  const delClient = async (id: string) => {
+    const confirmar = confirm("¿Deseas eliminar este cliente?");
+    if (confirmar) {
+      await ClientService.deleteClient(id);
+      await loadClients();
+    }
+  }; //Eliminar almacen */
 
-    const delClient = async (id:string) => {
-        const confirmar = confirm("¿Deseas eliminar este cliente?")
-        if (confirmar){
-            await ClientService.deleteClient(id);
-            await loadClients();
-        }
-    };//Eliminar almacen */
+  //----------------PAGINACION-------------------
 
-//----------------PAGINACION-------------------
+  const filteredClients = clients.filter((c) =>
+    c.name.toLowerCase().includes(search.toLowerCase()),
+  ); //Filtrar almacenes por nombre
 
-    const filteredClients = clients.filter((c) =>
-    c.name.toLowerCase().includes(search.toLowerCase())
-    );//Filtrar almacenes por nombre
+  const { currentData, pageNumber, currentPage, setCurrentPage } =
+    usePagination(filteredClients, 5); //Hook para recibir data
 
-    const {
-    currentData,
-    pageNumber,
-    currentPage,
-    setCurrentPage,
-    } = usePagination(filteredClients, 5);//Hook para recibir data
+  //----------------CICLO DE VIDA-------------------
 
-//----------------CICLO DE VIDA-------------------
+  useIonViewWillEnter(() => {
+    loadClients();
+  }, []);
 
-    useIonViewWillEnter(() => {
-        loadClients()
-    },[]);
-
-    return (
-      <IonPage>
-        <IonHeader>
-          <IonToolbar>
-            <IonTitle>Mi empresa</IonTitle>
-            <IonButtons>
-              <IonButton routerLink="/home">Home</IonButton>
-              <IonButton routerLink="/clients">Clientes</IonButton>
-              <IonButton routerLink="/add-client">Añadir Cliente</IonButton>
-              <IonButton routerLink="/warehouse">Almacenes</IonButton>
-              <IonButton routerLink="/add-warehouse">Añadir Almacen</IonButton>
-            </IonButtons>
-          </IonToolbar>
-        </IonHeader>
-        <IonContent fullscreen>
-          <div>
-            <SearchBar
-              search={search}
-              setSearch={setSearch}
-              placeholder="Buscar cliente"
-            />
-
-            <h2>Tabla de clientes</h2>
-            <p>Listado provisional de clientes admitidos:</p>
-
-            <IonButton routerLink="/add-client/">
-              Añadir cliente
-              <IonIcon
-                icon={addCircle}
-                slot="start"
-                style={{ marginLeft: "0px" }}
-              />
-            </IonButton>
-
-            <br />
-            <br />
-
-            <table>
-              <thead>
-                <tr>
-                  <th>ID</th>
-                  <th>Nombre</th>
-                  <th>Email</th>
-                  <th>Telefono</th>
-                  <th>Ciudad</th>
-                  <th>Perfil</th>
-                  <th>Eliminar</th>
-                </tr>
-              </thead>
-
-              <tbody>
-                {currentData.map((cliente) => (
-                  <tr key={cliente.id}>
-                    <td>{cliente._id}</td>
-                    <td>{cliente.name}</td>
-                    <td>{cliente.email}</td>
-                    <td>{formatCurrency(cliente.phone)}</td>
-                    <td>{cliente.city}</td>
-                    <td>
-                      <IonButton routerLink={`/profile-client/${cliente._id}`}>
-                        Perfil
-                        <IonIcon
-                          icon={personOutline}
-                          slot="start"
-                          style={{ marginLeft: "0px" }}
-                        />
-                      </IonButton>
-                      <td>
-                        <IonButton
-                          onClick={() => {
-                            navigate.push("/edit-client", cliente);
-                          }}
-                        >
-                          Editar
-                          <IonIcon
-                            icon={create}
-                            slot="start"
-                            style={{ marginLeft: "0px" }}
-                          />
-                        </IonButton>
-                      </td>
-                    </td>
-                    <td>
-                      <IonButton
-                        className="btn-danger"
-                        onClick={() => delClient(cliente._id)}
-                      >
-                        <IonIcon
-                          icon={trashOutline}
-                          slot="icon-only"
-                          style={{ marginLeft: "0px" }}
-                        />
-                      </IonButton>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-
-          <Pagination
-            pageNumber={pageNumber}
-            currentPage={currentPage}
-            setCurrentPage={setCurrentPage}
+  return (
+    <IonPage>
+      <IonHeader>
+        <IonToolbar>
+          <IonTitle>Mi empresa</IonTitle>
+          <IonButtons>
+            <IonButton routerLink="/home">Home</IonButton>
+            <IonButton routerLink="/clients">Clientes</IonButton>
+            <IonButton routerLink="/add-client">Añadir Cliente</IonButton>
+            <IonButton routerLink="/warehouse">Almacenes</IonButton>
+            <IonButton routerLink="/add-warehouse">Añadir Almacen</IonButton>
+          </IonButtons>
+        </IonToolbar>
+      </IonHeader>
+      <IonContent fullscreen>
+        <div>
+          <SearchBar
+            search={search}
+            setSearch={setSearch}
+            placeholder="Buscar cliente"
           />
 
-          <IonHeader collapse="condense">
-            <IonToolbar>
-              <IonTitle size="large">Blank</IonTitle>
-            </IonToolbar>
-          </IonHeader>
-        </IonContent>
-      </IonPage>
-    );
+          <h2>Tabla de clientes</h2>
+          <p>Listado provisional de clientes admitidos:</p>
 
+          <IonButton routerLink="/add-client/">
+            Añadir cliente
+            <IonIcon
+              icon={addCircle}
+              slot="start"
+              style={{ marginLeft: "0px" }}
+            />
+          </IonButton>
 
+          <br />
+          <br />
 
+          <table className="container mt-4 table">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Email</th>
+                <th>Telefono</th>
+                <th>Ciudad</th>
+                <th>Perfil</th>
+                <th>Eliminar</th>
+              </tr>
+            </thead>
 
+            <tbody>
+              {currentData.map((cliente) => (
+                <tr key={cliente.id}>
+                  <td>{cliente._id}</td>
+                  <td>{cliente.name}</td>
+                  <td>{cliente.email}</td>
+                  <td>{formatCurrency(cliente.phone)}</td>
+                  <td>{cliente.city}</td>
+                  <td>
+                    <IonButton routerLink={`/profile-client/${cliente._id}`}>
+                      Perfil
+                      <IonIcon
+                        icon={personOutline}
+                        slot="start"
+                        style={{ marginLeft: "0px" }}
+                      />
+                    </IonButton>
+                  </td>
+                  <td>
+                    <IonButton
+                      onClick={() => {
+                        navigate.push("/edit-client", cliente);
+                      }}
+                    >
+                      Editar
+                      <IonIcon
+                        icon={create}
+                        slot="start"
+                        style={{ marginLeft: "0px" }}
+                      />
+                    </IonButton>
+                  </td>
 
+                  <td>
+                    <IonButton
+                      className="btn-danger"
+                      onClick={() => delClient(cliente._id)}
+                    >
+                      <IonIcon
+                        icon={trashOutline}
+                        slot="icon-only"
+                        style={{ marginLeft: "0px" }}
+                      />
+                    </IonButton>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
 
+        <Pagination
+          pageNumber={pageNumber}
+          currentPage={currentPage}
+          setCurrentPage={setCurrentPage}
+        />
 
+        <IonHeader collapse="condense">
+          <IonToolbar>
+            <IonTitle size="large">Blank</IonTitle>
+          </IonToolbar>
+        </IonHeader>
+      </IonContent>
+    </IonPage>
+  );
 }
-

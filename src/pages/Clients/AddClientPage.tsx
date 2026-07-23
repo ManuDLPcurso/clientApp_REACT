@@ -141,7 +141,7 @@ export default function ClientsPage() {
             />
             <input
             className="form-control mb-3"
-            placeholder="Teléfono"
+            placeholder="Ciudad"
             onChange={(e) => setClient({ ...client, city: e.target.value})}
             />
             

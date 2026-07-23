@@ -72,15 +72,8 @@ export default function WarehousePage(){
         </IonToolbar>
       </IonHeader>
       <IonContent fullscreen>
-        <div className="container mt-4 table-responsive action-column">
 
-          <SearchBar 
-          search = {search}
-          setSearch={setSearch}
-          placeholder="Buscar cliente"
-          />
-          
-          <h2>Tabla de almacenes</h2>
+           <h2>Tabla de almacenes</h2>
 
           <IonButton routerLink= "/add-warehouse/">
             Añadir almacén 
@@ -91,6 +84,16 @@ export default function WarehousePage(){
           </IonButton>
 
           <br /><br />
+          
+        <div className="container mt-4 table-responsive action-column">
+
+          <SearchBar 
+          search = {search}
+          setSearch={setSearch}
+          placeholder="Buscar cliente"
+          />
+          
+       
 
           <table className="table table-hover align clients-table">
             <thead>
