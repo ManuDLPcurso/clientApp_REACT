@@ -309,11 +309,6 @@ export default function ClientsPage(){
             />
 
             <h2>Tabla de clientes</h2>
-            <h1
-              className="text-5xl font-bold text-red-200 text-center mt-5"
-            >
-              Tailwind funciona
-            </h1>
             <p>Listado provisional de clientes admitidos:</p>
 
             <IonButton routerLink="/add-client/">
